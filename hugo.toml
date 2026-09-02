@@ -1,0 +1,107 @@
+baseURL = 'https://RainLightJ.github.io/'
+locale = 'zh-cn'
+defaultContentLanguage = 'zh-cn'
+title = 'RainLight 的博客'
+theme = 'PaperMod'
+
+# 分页：每页 10 篇
+[pagination]
+pagerSize = 10
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+# 中文摘要按字数统计更准确
+hasCJKLanguage = true
+summaryLength = 70
+
+[minify]
+disableXML = true
+minifyOutput = true
+
+# ---------------- 主题参数 ----------------
+[params]
+env = 'production'          # 启用 Google Analytics 等生产特性
+description = '记录技术、折腾与日常'
+author = 'RainLight'
+defaultTheme = 'auto'       # auto / light / dark
+ShowReadingTime = true
+ShowShareButtons = false
+ShowPostNavLinks = true
+ShowBreadCrumbs = true
+ShowCodeCopyButtons = true
+ShowWordCount = true
+ShowRssButtonInSectionTermList = true
+ShowToc = true
+TocOpen = false
+disableSpecial1stPost = false
+comments = false
+
+  # 首页个人信息模式
+  [params.profileMode]
+  enabled = true
+  title = 'RainLight'
+  subtitle = '记录技术、折腾与日常'
+  imageWidth = 120
+  imageHeight = 120
+
+    [[params.profileMode.buttons]]
+    name = '文章'
+    url = 'posts'
+
+    [[params.profileMode.buttons]]
+    name = '标签'
+    url = 'tags'
+
+  # 搜索配置（fuse.js）
+  [params.fuseOpts]
+  isCaseSensitive = false
+  shouldSort = true
+  location = 0
+  distance = 1000
+  threshold = 0.4
+  minMatchCharLength = 0
+  keys = ['title', 'permalink', 'summary', 'content']
+
+# ---------------- 导航菜单 ----------------
+[[menu.main]]
+identifier = 'posts'
+name = '文章'
+url = '/posts/'
+weight = 10
+
+[[menu.main]]
+identifier = 'tags'
+name = '标签'
+url = '/tags/'
+weight = 20
+
+[[menu.main]]
+identifier = 'archives'
+name = '归档'
+url = '/archives/'
+weight = 30
+
+[[menu.main]]
+identifier = 'search'
+name = '搜索'
+url = '/search/'
+weight = 40
+
+# ---------------- 代码高亮 ----------------
+[markup]
+  [markup.highlight]
+  noClasses = false
+  codeFences = true
+  guessSyntax = true
+  lineNos = false
+  style = 'github-dark'
+
+  [markup.goldmark.renderer]
+  unsafe = true            # 允许 Markdown 内嵌 HTML
+
+# 搜索页需要输出 JSON 索引
+[outputs]
+home = ['HTML', 'RSS', 'JSON']

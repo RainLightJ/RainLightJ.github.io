@@ -1,0 +1,16 @@
+# Hugo 构建产物
+/public/
+/resources/_gen/
+/.hugo_build.lock
+hugo_stats.json
+
+# 操作系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+*~
