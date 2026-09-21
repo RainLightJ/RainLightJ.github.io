@@ -314,6 +314,7 @@
           margin-left: 0 !important;
           opacity: 0 !important;
           pointer-events: none !important;
+          display: none !important;
         }
         .rlp-title {
           font-size: 13.5px !important;
@@ -435,10 +436,9 @@
     // 阻断原生 HTML5 文本/图片拖拽抢占事件
     container.addEventListener('dragstart', (e) => e.preventDefault());
 
-    // 手机端专属丝滑触控拖拽支持：彻底解决手机端与页面滚动冲突、拖不动的问题
+    // 手机端专属丝滑触控拖拽支持：精准区分拖拽与点击，彻底解决缩起后打不开的恶疾
     container.addEventListener('touchstart', (e) => {
       if (e.target.closest('.rlp-btn')) return;
-      if (e.cancelable) e.preventDefault();
 
       const touch = e.touches[0];
       isDragging = true;
@@ -451,18 +451,19 @@
       initialLeft = rect.left;
       initialTop = rect.top;
       container.classList.add('dragging');
-    }, { passive: false });
+    }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
       if (!isDragging || activePointerId !== 'touch') return;
-      if (e.cancelable) e.preventDefault();
 
       const touch = e.touches[0];
       const dx = touch.clientX - startX;
       const dy = touch.clientY - startY;
 
-      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
         hasMoved = true;
+        // 真正发生拖拽时才拦截浏览器滚动
+        if (e.cancelable) e.preventDefault();
       }
 
       let newLeft = initialLeft + dx;
@@ -485,9 +486,7 @@
 
     container.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'touch') return; // 触控已由 touchstart 专门托管
-      // 内部控制按钮交互（播放、切歌、随机）不触发整体拖拽
       if (e.target.closest('.rlp-btn')) return;
-      // 仅响应鼠标左键或触控/手写笔拖拽
       if (e.button !== 0 && e.pointerType === 'mouse') return;
 
       isDragging = true;
@@ -512,14 +511,13 @@
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
 
-      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
         hasMoved = true;
       }
 
       let newLeft = initialLeft + dx;
       let newTop = initialTop + dy;
 
-      // 边界吸附与屏幕可视区限制
       const maxLeft = Math.max(0, window.innerWidth - container.offsetWidth - 8);
       const maxTop = Math.max(0, window.innerHeight - container.offsetHeight - 8);
 
@@ -537,7 +535,7 @@
       container.classList.remove('dragging');
 
       try {
-        if (container.hasPointerCapture(e.pointerId)) {
+        if (container.hasPointerCapture && e.pointerId && container.hasPointerCapture(e.pointerId)) {
           container.releasePointerCapture(e.pointerId);
         }
       } catch(_) {}
@@ -549,8 +547,12 @@
           left: Math.round(rect.left),
           top: Math.round(rect.top)
         }));
-        // 短暂延时重置 hasMoved，确保跟随的 click 事件正确识别“本次是拖拽”并防止折叠误触
         setTimeout(() => { hasMoved = false; }, 120);
+      } else {
+        // 未发生拖拽移动 -> 判定为绝对点击！
+        if (container.classList.contains('is-collapsed')) {
+          toggleFold(false);
+        }
       }
     }
 
@@ -692,6 +694,7 @@
     function toggleFold(force) {
       const isCurrentlyFolded = container.classList.contains('is-collapsed');
       const target = typeof force === 'boolean' ? force : !isCurrentlyFolded;
+      if (target === isCurrentlyFolded) return; // 状态幂等保护，防止连续重复触发
       container.classList.toggle('is-collapsed', target);
       content.classList.toggle('collapsed', target);
       container.title = target ? '点击展开音乐播放器' : '';
@@ -699,15 +702,19 @@
       localStorage.setItem('rlp_player_collapsed', target ? 'true' : 'false');
     }
 
-    // 1. 点击控制栏收起按钮直接折叠
+    // 1. 点击控制栏收起按钮直接折叠（同时支持 click 与 touch）
     if (collapseBtn) {
       collapseBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleFold(true);
       });
+      collapseBtn.addEventListener('touchend', (e) => {
+        e.stopPropagation();
+        toggleFold(true);
+      });
     }
 
-    // 2. 容器级点击统一拦截分发（彻底解决指针捕获下子元素点击不触发、折叠后无法重新展开的问题）
+    // 2. 容器级点击统一拦截分发（电脑鼠标与手机触控双重保险）
     container.addEventListener('click', (e) => {
       // 内部操作按钮（上一曲、播放暂停、下一曲、折叠按钮）已自行处理，跳过
       if (e.target.closest('.rlp-btn')) return;
