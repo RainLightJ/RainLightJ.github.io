@@ -51,7 +51,7 @@ rotate = true
 
   # 自定义注入代码（带版本号防浏览器强缓存）
   [params.injector]
-  head_end = '<script src="/custom.js?v=20260922_1"></script><link rel="stylesheet" href="/custom.css?v=20260922_1">'
+  head_end = '<script src="/custom.js?v=20260922_2"></script><link rel="stylesheet" href="/custom.css?v=20260922_2">'
 
   # 开启 PJAX 无刷新切页（全站页面跳转不重新加载网页，音乐与动效持续播放不断流）
   [params.pjax]
