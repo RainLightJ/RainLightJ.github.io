@@ -1,0 +1,53 @@
+{{- define "main" -}}
+  <div class="archives-outer-wrap" data-aos="fade-up">
+    <div class="folder-gallery-container">
+      <div class="folder-gallery-header" data-aos="fade-down">
+        <h1 class="folder-gallery-title">📁 文档分类专区</h1>
+        <p class="folder-gallery-subtitle">选择进入对应的知识库文件夹，查看完整技术笔记与文章</p>
+      </div>
+
+      <div class="folder-gallery-grid">
+        {{- /* 预定义推荐显示顺序：前端 -> 后端 -> 运维 -> 上位机 -> 其他 */ -}}
+        {{- $order := slice "前端" "后端" "运维" "上位机" "其他" -}}
+        {{- $sortedPages := slice -}}
+        {{- range $target := $order -}}
+          {{- range $.Pages -}}
+            {{- if eq .LinkTitle $target -}}
+              {{- $sortedPages = $sortedPages | append . -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- /* 包含未在预定义列表中的其他新增分类 */ -}}
+        {{- range $.Pages -}}
+          {{- if not (in $order .LinkTitle) -}}
+            {{- $sortedPages = $sortedPages | append . -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{- range $sortedPages -}}
+          {{- $categoryName := .LinkTitle -}}
+          {{- $icon := "📁" -}}
+          {{- if eq $categoryName "前端" }}{{ $icon = "💻" }}{{ end -}}
+          {{- if eq $categoryName "后端" }}{{ $icon = "⚙️" }}{{ end -}}
+          {{- if eq $categoryName "运维" }}{{ $icon = "☁️" }}{{ end -}}
+          {{- if eq $categoryName "上位机" }}{{ $icon = "🕹️" }}{{ end -}}
+          {{- if eq $categoryName "其他" }}{{ $icon = "📦" }}{{ end -}}
+
+          <a class="folder-card" href="{{ .RelPermalink }}" data-aos="zoom-in" data-aos-duration="500">
+            <div class="folder-card-icon-wrap">
+              <span class="folder-card-icon">{{ $icon }}</span>
+            </div>
+            <div class="folder-card-body">
+              <h2 class="folder-card-name">{{ $categoryName }}</h2>
+              <span class="folder-card-badge">{{ len .Pages }} 篇文档</span>
+            </div>
+            <div class="folder-card-enter">
+              <span class="folder-enter-text">浏览专栏</span>
+              <span class="folder-enter-arrow">➔</span>
+            </div>
+          </a>
+        {{- end -}}
+      </div>
+    </div>
+  </div>
+{{- end -}}

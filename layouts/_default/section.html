@@ -1,0 +1,14 @@
+{{- define "main" -}}
+  {{- $sort_config := .Site.Params.sort_order.archive -}}
+  {{- $pageSize := 0 -}}
+  {{- with $.Site.Params.paginate.archive -}}
+    {{- $pageSize = . -}}
+  {{- end -}}
+  {{- $paginator := "" -}}
+  {{- if gt $pageSize 0 -}}
+    {{- $paginator = .Paginate (where .Page.Site.RegularPages "Section" "in" .Site.Params.mainSections) $pageSize -}}
+  {{- else -}}
+    {{- $paginator = .Paginate (where .Page.Site.RegularPages "Section" "in" .Site.Params.mainSections) -}}
+  {{- end -}}
+  {{- partial "archives.html" (dict "paginator" $paginator "ctx" .) -}}
+{{- end -}}

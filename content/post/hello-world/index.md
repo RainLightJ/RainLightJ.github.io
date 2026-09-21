@@ -1,9 +1,9 @@
 ---
 title: "第一篇文章：博客搭建完成"
-date: 2026-09-03T10:00:00+08:00
+date: 2026-09-02T21:00:00+08:00
 draft: false
-tags: ["Hugo", "GitHub Pages"]
-categories: ["折腾记录"]
+categories: ["运维"]
+cover: "/images/covers/pixel_tech.webp"
 description: "用 Hugo + GitHub Pages 搭起了这个博客，记录一下技术栈和日常发布流程。"
 ---
 

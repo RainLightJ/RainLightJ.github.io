@@ -1,13 +1,53 @@
 ---
 title: "{{ replace .File.ContentBaseName "-" " " | title }}"
 date: {{ .Date }}
-draft: true
-tags: []
-categories: []
-description: ""
-# 封面图：把图片放在本文所在目录，然后填文件名
-# cover:
-#   image: "cover.jpg"
-#   alt: ""
-#   caption: ""
+draft: false
+description: "在此处填写 1~2 句简明扼要的摘要，将展示在首页卡片与搜索列表中。"
+# 封面图：可直接使用内置像素封面（/images/covers/pixel_tech.webp 或 pixel_study.webp），或在当前文章文件夹放入图片后填写文件名
+cover: "/images/covers/pixel_tech.webp"
+
+# 分类（专属体系：前端 / 后端 / 运维 / 上位机 / 其他）
+categories:
+  - "前端"
 ---
+
+> **前言 / 导读**：简要说明这篇笔记要解决的核心问题、适用场景或技术背景。
+
+---
+
+## 1. 核心概念与要点
+
+- **要点一**：清晰的论点或关键技术点说明；
+- **要点二**：需要重点关注的避坑指南；
+- **行内代码**：如 `npm run dev` 或 `git status`。
+
+---
+
+## 2. 关键代码示例
+
+```python
+# 示例代码块：附带清晰注释
+def hello_world():
+    """日常笔记示例函数"""
+    print("记录技术、折腾与日常！")
+
+if __name__ == "__main__":
+    hello_world()
+```
+
+---
+
+## 3. 结构化对比表
+
+| 对比维度 | 方案 A (推荐) | 方案 B |
+| :--- | :--- | :--- |
+| **性能表现** | 极高，资源占用低 | 一般 |
+| **开发维护** | 结构清晰，维护简便 | 耦合度高 |
+| **适用场景** | 生产环境与长期沉淀 | 快速验证测试 |
+
+---
+
+## 4. 总结与注意事项
+
+> [!TIP]
+> **实用技巧**：写笔记时建议通过小标题与项目列表保持层级分明，代码务必标注编程语言（如 `js`, `python`, `bash`）以获得最佳高亮效果。

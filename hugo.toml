@@ -1,21 +1,15 @@
 baseURL = 'https://RainLightJ.github.io/'
 locale = 'zh-cn'
-defaultContentLanguage = 'zh-cn'
+defaultContentLanguage = 'zh'
 title = 'RainLight 的博客'
-theme = 'PaperMod'
-
-# 分页：每页 10 篇
-[pagination]
-pagerSize = 10
+theme = 'reimu'
 
 enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
 buildExpired = false
 
-# 中文摘要按字数统计更准确
 hasCJKLanguage = true
-summaryLength = 70
 
 [minify]
 disableXML = true
@@ -23,85 +17,106 @@ minifyOutput = true
 
 # ---------------- 主题参数 ----------------
 [params]
-env = 'production'          # 启用 Google Analytics 等生产特性
-description = '记录技术、折腾与日常'
 author = 'RainLight'
-defaultTheme = 'auto'       # auto / light / dark
-ShowReadingTime = true
-ShowShareButtons = false
-ShowPostNavLinks = true
-ShowBreadCrumbs = true
-ShowCodeCopyButtons = true
-ShowWordCount = true
-ShowRssButtonInSectionTermList = true
-ShowToc = true
-TocOpen = false
-disableSpecial1stPost = false
-comments = false
+description = '记录技术、折腾与日常'
+avatar = 'avatar.jpg'
+mainSections = ['post']
+banner = 'images/banner_light.webp'
+toc = true
+show_update_time = true
+anchor_icon = false
 
-  # 首页个人信息模式
-  [params.profileMode]
-  enabled = true
-  title = 'RainLight'
-  subtitle = '记录技术、折腾与日常'
-  imageWidth = 120
-  imageHeight = 120
+# 侧边栏小组件（只保留分类与最新文章，彻底剔除标签、标签云与归档）
+widgets = ['category', 'recent_posts']
 
-    [[params.profileMode.buttons]]
-    name = '文章'
-    url = 'posts'
+[params.preloader]
+enable = true
+text = '少女祈祷中...'
+rotate = true
 
-    [[params.profileMode.buttons]]
-    name = '标签'
-    url = 'tags'
+  # 副标题（首页大图上的那行字）
+  [params.subtitle]
+  text = '记录技术、折腾与日常'
 
-  # 搜索配置（fuse.js）
-  [params.fuseOpts]
-  isCaseSensitive = false
-  shouldSort = true
-  location = 0
-  distance = 1000
-  threshold = 0.4
-  minMatchCharLength = 0
-  keys = ['title', 'permalink', 'summary', 'content']
+    [params.subtitle.typing]
+    enable = false
 
-# ---------------- 导航菜单 ----------------
-[[menu.main]]
-identifier = 'posts'
-name = '文章'
-url = '/posts/'
-weight = 10
+  # 侧边栏
+  [params.sidebar]
+  position = 'right'
+  menu = false
 
-[[menu.main]]
-identifier = 'tags'
-name = '标签'
-url = '/tags/'
-weight = 20
+    [params.sidebar.article]
+    show_common = true
 
-[[menu.main]]
-identifier = 'archives'
-name = '归档'
-url = '/archives/'
-weight = 30
+  # 自定义注入代码（带版本号防浏览器强缓存）
+  [params.injector]
+  head_end = '<script src="/custom.js?v=20260921_5"></script><link rel="stylesheet" href="/custom.css?v=20260921_5">'
 
-[[menu.main]]
-identifier = 'search'
-name = '搜索'
-url = '/search/'
-weight = 40
+  # 开启 PJAX 无刷新切页（全站页面跳转不重新加载网页，音乐与动效持续播放不断流）
+  [params.pjax]
+  enable = true
 
-# ---------------- 代码高亮 ----------------
+  # 关闭原主题底部播放器（采用自定义左上角轻量黑胶小圆环播放器）
+  [params.player]
+    [params.player.aplayer]
+    enable = false
+    [params.player.meting]
+    enable = false
+
+  # 深色模式
+  [params.dark_mode]
+  button = true
+  type = 'auto'
+
+  # 页脚
+  [params.footer]
+  since = 2026
+  powered = true
+  count = false
+  busuanzi = false
+
+  # 社交链接
+  [params.social]
+  github = 'https://github.com/RainLightJ'
+
+  # 导航菜单：首页、分类、其他（杂类的小玩意）、关于
+  [[params.menu]]
+  name = 'home'
+  title = '首页'
+  url = ''
+  icon = false
+
+  [[params.menu]]
+  name = 'categories'
+  title = '分类'
+  url = 'categories'
+  icon = false
+
+  [[params.menu]]
+  name = 'others'
+  title = '其他'
+  url = 'categories/其他'
+  icon = false
+
+  [[params.menu]]
+  name = 'about'
+  title = '关于'
+  url = 'about'
+  icon = false
+
+# 分类体系定义（仅开启 categories，彻底关闭 tags 索引）
+[taxonomies]
+  category = 'categories'
+
+
+# ---------------- Markdown ----------------
 [markup]
   [markup.highlight]
-  noClasses = false
+  noClasses = true
   codeFences = true
   guessSyntax = true
   lineNos = false
-  style = 'github-dark'
 
   [markup.goldmark.renderer]
-  unsafe = true            # 允许 Markdown 内嵌 HTML
-
-# 搜索页需要输出 JSON 索引
-[outputs]
-home = ['HTML', 'RSS', 'JSON']
+  unsafe = true
