@@ -1,0 +1,92 @@
+{{- $page := .page -}}
+{{- $index := .index -}}
+{{- $ctx := .ctx -}}
+<div class="post-wrapper">
+  <div class="post-wrap-left">
+    <a
+      class="article-avatar"
+      aria-label="{{ $ctx.Site.Params.author | default $ctx.Site.Title }}"
+      href="{{ "" | relLangURL }}"
+    >
+      <img
+        data-src="{{ $ctx.Site.Params.avatar | default "avatar.webp" | relURL }}"
+        data-sizes="auto"
+        alt="{{ $ctx.Site.Params.author | default $ctx.Site.Title }}"
+        class="lazyload"
+      />
+    </a>
+    <div class="post-countdown">
+      <span class="post-countdown-item"></span>
+      <span class="post-countdown-item"></span>
+      <span class="post-countdown-item"></span>
+      <span class="post-countdown-item"></span>
+      <span class="post-countdown-item"></span>
+      <span class="post-countdown-item"></span>
+    </div>
+  </div>
+  <div class="post-wrap-right">
+    {{- if $page.Params.sticky -}}
+      <div class="post-sticky">{{ i18n "sticky" }}</div>
+    {{- end -}}
+    <div
+      class="{{ if mod $index 2 }}
+        post-cover right
+      {{ else }}
+        post-cover left
+      {{ end }}"
+    >
+      {{- $coverImg := $page.Params.cover -}}
+      {{- $res := $page.Resources.GetMatch $coverImg -}}
+      {{- $coverSrc := "" -}}
+      {{- if $res -}}
+        {{- $coverSrc = $res.RelPermalink -}}
+      {{- else if and $coverImg (not (hasPrefix $coverImg "rgb")) -}}
+        {{- $coverSrc = $coverImg | relURL -}}
+      {{- end -}}
+      {{- if $coverSrc -}}
+        <img
+          data-src="{{ $coverSrc }}"
+          data-sizes="auto"
+          alt="{{ $page.Title }}"
+          class="lazyload"
+        />
+      {{- else -}}
+        {{- $cover := partial "helpers/randomCover.html" $ctx -}}
+        {{- if $cover -}}
+          <img
+            data-src="{{ $cover | relURL }}"
+            data-sizes="auto"
+            alt="{{ $page.Title }}"
+            class="lazyload"
+          />
+        {{- else -}}
+          <img
+            data-src="{{ $ctx.Site.Params.banner | relURL }}"
+            data-sizes="auto"
+            alt="{{ $page.Title }}"
+            class="lazyload"
+          />
+        {{- end -}}
+      {{- end -}}
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>{{- $page.Date.Format (default "2006-01-02" $ctx.Site.Params.dateFormat) -}}</span>
+        <span><span class="icon-pencil"></span>{{- i18n "word_count" $page.WordCount -}}</span>
+        <span><span class="icon-clock"></span>{{- i18n "reading_time" $page.ReadingTime -}}</span>
+      </div>
+      <h2 class="post-title">
+        <a href="{{ $page.RelPermalink }}">
+          {{ $page.Title }}
+        </a>
+      </h2>
+      <article class="post-article">
+        {{- if $page.Params.description -}}
+          {{- $page.Params.description -}}
+        {{- else -}}
+          {{- $page.Summary -}}
+        {{- end -}}
+      </article>
+    </div>
+  </div>
+</div>

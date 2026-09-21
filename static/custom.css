@@ -106,6 +106,37 @@
   color: #93c5fd !important;
 }
 
+/* 手机端/移动端：强制平铺显示首页、分类、其他、关于，隐藏折叠汉堡菜单 */
+@media (max-width: 860px) {
+  #main-nav-toggle {
+    display: none !important;
+  }
+  #main-nav {
+    display: flex !important;
+    align-items: center !important;
+  }
+  .main-nav-link-wrap {
+    display: flex !important;
+    padding: 0 6px !important;
+    align-items: center !important;
+  }
+  .main-nav-link {
+    font-size: 13.5px !important;
+    padding: 12px 4px !important;
+    white-space: nowrap !important;
+  }
+  #header-nav {
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 0 6px !important;
+    height: 48px !important;
+  }
+  .nav-icon {
+    padding: 12px 6px !important;
+  }
+}
+
 /* 5. 卡片内部标题与正文（非横幅区域） */
 .post-title, 
 .sidebar-author-name, 
