@@ -435,7 +435,56 @@
     // 阻断原生 HTML5 文本/图片拖拽抢占事件
     container.addEventListener('dragstart', (e) => e.preventDefault());
 
+    // 手机端专属丝滑触控拖拽支持：彻底解决手机端与页面滚动冲突、拖不动的问题
+    container.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.rlp-btn')) return;
+      if (e.cancelable) e.preventDefault();
+
+      const touch = e.touches[0];
+      isDragging = true;
+      hasMoved = false;
+      activePointerId = 'touch';
+      startX = touch.clientX;
+      startY = touch.clientY;
+
+      const rect = container.getBoundingClientRect();
+      initialLeft = rect.left;
+      initialTop = rect.top;
+      container.classList.add('dragging');
+    }, { passive: false });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || activePointerId !== 'touch') return;
+      if (e.cancelable) e.preventDefault();
+
+      const touch = e.touches[0];
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+        hasMoved = true;
+      }
+
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+
+      const maxLeft = Math.max(0, window.innerWidth - container.offsetWidth - 6);
+      const maxTop = Math.max(0, window.innerHeight - container.offsetHeight - 6);
+
+      newLeft = Math.max(6, Math.min(newLeft, maxLeft));
+      newTop = Math.max(6, Math.min(newTop, maxTop));
+
+      container.style.left = `${newLeft}px`;
+      container.style.top = `${newTop}px`;
+    }, { passive: false });
+
+    window.addEventListener('touchend', (e) => {
+      if (!isDragging || activePointerId !== 'touch') return;
+      onPointerEnd({ pointerId: 'touch' });
+    });
+
     container.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'touch') return; // 触控已由 touchstart 专门托管
       // 内部控制按钮交互（播放、切歌、随机）不触发整体拖拽
       if (e.target.closest('.rlp-btn')) return;
       // 仅响应鼠标左键或触控/手写笔拖拽

@@ -31,7 +31,7 @@ widgets = ['category', 'recent_posts']
 
 [params.preloader]
 enable = true
-text = '少女祈祷中...'
+text = '正在加载中...'
 rotate = true
 
   # 副标题（首页大图上的那行字）
@@ -51,7 +51,7 @@ rotate = true
 
   # 自定义注入代码（带版本号防浏览器强缓存）
   [params.injector]
-  head_end = '<script src="/custom.js?v=20260921_5"></script><link rel="stylesheet" href="/custom.css?v=20260921_5">'
+  head_end = '<script src="/custom.js?v=20260921_6"></script><link rel="stylesheet" href="/custom.css?v=20260921_6">'
 
   # 开启 PJAX 无刷新切页（全站页面跳转不重新加载网页，音乐与动效持续播放不断流）
   [params.pjax]
@@ -71,8 +71,8 @@ rotate = true
 
   # 页脚
   [params.footer]
-  since = 2026
-  powered = true
+  since = false
+  powered = false
   count = false
   busuanzi = false
 

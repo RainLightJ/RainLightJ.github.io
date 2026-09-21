@@ -6,7 +6,7 @@ description: "在此处填写 1~2 句简明扼要的摘要，将展示在首页�
 # 封面图：可直接使用内置像素封面（/images/covers/pixel_tech.webp 或 pixel_study.webp），或在当前文章文件夹放入图片后填写文件名
 cover: "/images/covers/pixel_tech.webp"
 
-# 分类（专属体系：前端 / 后端 / 运维 / 上位机 / 其他）
+# 分类（专属体系：前端 / 后端 / 运维 / 其他）
 categories:
   - "前端"
 ---

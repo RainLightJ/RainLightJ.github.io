@@ -1,0 +1,53 @@
+{{- $totalWordCount := 0 -}}
+{{- $totalReadingTime := 0 -}}
+{{- $posts := (where .Page.Site.RegularPages "Section" "in" .Site.Params.mainSections) -}}
+{{- range $posts -}}
+  {{- $totalWordCount = add $totalWordCount .WordCount -}}
+  {{- $totalReadingTime = add $totalReadingTime .ReadingTime -}}
+{{- end -}}
+
+<footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    {{- if .Site.Params.copyright -}}
+      {{- .Site.Params.copyright | safeHTML -}}
+    {{- end -}}
+    {{- if .Site.Params.footer.count -}}
+      <div>
+        <span class="icon-brush"
+          >&nbsp;{{- if gt $totalWordCount 1000 -}}
+            {{- printf "%.1fk" (div $totalWordCount 1000.0) -}}
+          {{- else -}}
+            {{- $totalWordCount -}}
+          {{- end -}}</span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;
+          {{- $hours := div $totalReadingTime 60 -}}
+          {{- $minutes := mod $totalReadingTime 60 -}}
+
+          {{- printf "%02d:%02d" $hours $minutes -}}
+        </span>
+      </div>
+    {{- end -}}
+    {{- if .Site.Params.footer.busuanzi -}}
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >{{ i18n "busuanzi.pv" }}&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >{{ i18n "busuanzi.uv" }}&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div>
+    {{- end -}}
+  </div>
+</footer>

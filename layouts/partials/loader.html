@@ -7,10 +7,33 @@
         {{- if .Site.Params.preloader.icon -}}
           <img src="{{ .Site.Params.preloader.icon | relURL }}" alt="loading" />
         {{- else -}}
-          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
-            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
-            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
-          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon loader-astrolabe" version="1.1" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <defs>
+              <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--red-1, #38bdf8)" />
+                <stop offset="100%" stop-color="var(--red-2, #60a5fa)" />
+              </linearGradient>
+            </defs>
+            <!-- 外部星轨虚线环 -->
+            <circle cx="512" cy="512" r="450" fill="none" stroke="url(#loaderGrad)" stroke-width="16" stroke-dasharray="160 30 60 30" stroke-linecap="round" />
+            <!-- 四方刻度指针 -->
+            <rect x="504" y="24" width="16" height="52" rx="8" fill="var(--red-1, #38bdf8)" />
+            <rect x="504" y="948" width="16" height="52" rx="8" fill="var(--red-1, #38bdf8)" />
+            <rect x="24" y="504" width="52" height="16" rx="8" fill="var(--red-1, #38bdf8)" />
+            <rect x="948" y="504" width="52" height="16" rx="8" fill="var(--red-1, #38bdf8)" />
+            <!-- 中层黑胶声轨与频率光环 -->
+            <circle cx="512" cy="512" r="350" fill="none" stroke="var(--red-2, #60a5fa)" stroke-width="10" stroke-dasharray="32 18" opacity="0.65" />
+            <circle cx="512" cy="512" r="265" fill="none" stroke="url(#loaderGrad)" stroke-width="14" stroke-dasharray="180 40 70 40" stroke-linecap="round" opacity="0.9" />
+            <!-- 卫星轨道光点 -->
+            <circle cx="200" cy="200" r="18" fill="var(--red-1, #38bdf8)" />
+            <circle cx="824" cy="200" r="14" fill="var(--red-2, #60a5fa)" />
+            <circle cx="824" cy="824" r="20" fill="var(--red-1, #38bdf8)" />
+            <circle cx="200" cy="824" r="14" fill="var(--red-2, #60a5fa)" />
+            <!-- 内层科技菱光星核 -->
+            <path d="M 512 340 Q 512 512 340 512 Q 512 512 512 684 Q 512 512 684 512 Q 512 512 512 340 Z" fill="none" stroke="var(--red-1, #38bdf8)" stroke-width="14" />
+            <circle cx="512" cy="512" r="95" fill="var(--red-1, #38bdf8)" opacity="0.2" />
+            <circle cx="512" cy="512" r="54" fill="url(#loaderGrad)" />
+            <circle cx="512" cy="512" r="20" fill="#0f172a" />
           </svg>
         {{- end -}}
       </div>
@@ -25,7 +48,7 @@
       {{- else -}}
         {{- $realText = $text -}}
       {{- end -}}
-      <div class="loading-word">{{ default "少女祈祷中..." $realText }}</div>
+      <div class="loading-word">{{ default "正在加载中..." $realText }}</div>
     </div>
   </div>
   <script>

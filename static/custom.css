@@ -678,4 +678,72 @@ a[href*="/tags/"],
   border-radius: 50% !important;
 }
 
+/* 播放器触控全域锁定，严禁任何移动端默认滚动抢占 */
+#rainlight-music-player,
+#rainlight-music-player * {
+  touch-action: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+/* 14. 彻底移除全站残余太极图标，返回顶部常驻简约质感箭头 */
+.sidebar-top .sidebar-top-taichi {
+  display: none !important;
+}
+.sidebar-top .arrow-up {
+  opacity: 1 !important;
+}
+
+/* 15. 移动端专项响应式排版优化（彻底解决顶部标题被顶栏截断或重叠的 bug） */
+@media (max-width: 768px) {
+  #header {
+    min-height: 240px !important;
+    padding-top: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+
+  #header-outer {
+    position: relative !important;
+    height: auto !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  #header-title {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    padding: 6px 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #header-title h1,
+  #header-title #logo h1 {
+    font-size: 1.55rem !important;
+    line-height: 1.38 !important;
+    letter-spacing: 0.02em !important;
+    word-break: break-word !important;
+    margin: 0 !important;
+    padding: 0 4px !important;
+  }
+
+  #subtitle {
+    font-size: 0.92rem !important;
+    line-height: 1.4 !important;
+    margin-top: 6px !important;
+    width: 90% !important;
+  }
+}
+
 
